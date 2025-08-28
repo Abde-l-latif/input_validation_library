@@ -45,14 +45,14 @@ public :
 	{
 		int num = 0 ;
 		
-		cout << "Please enter a number : ";
+		cout << msg;
 		cin >> num; 
 
 		while (cin.fail())
 		{
 			cin.clear(); 
 			cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
-			cout << msg << endl;
+			cout << "wrong Data type try again  :  " << endl;
 			cin >> num;
 		}
 
@@ -67,7 +67,7 @@ public :
 
 		while (true)
 		{
-			cout << "Please enter a number: ";
+			cout << msg;
 			cin >> input;
 
 			if (regex_match(input, doublePattern))
@@ -77,7 +77,33 @@ public :
 				if (!ss.fail()) return num;
 			}
 
-			cout << msg << endl;
+			cout << "something went wrong !!" << endl;
+
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
+	}
+
+	static float read_float_number_input(string msg)
+	{
+		string input;
+		float num;
+
+		regex floatPattern(R"(^[+-]?\d*\.\d+$)");
+
+		while (true)
+		{
+			cout << msg;
+			cin >> input;
+
+			if (regex_match(input, floatPattern))
+			{
+				stringstream ss(input);
+				ss >> num;
+				if (!ss.fail()) return num;
+			}
+
+			cout << "something went wrong !!" << endl;
 
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -86,13 +112,13 @@ public :
 	static int read_int_number_between(short from, short to, string message)
 	{
 		int number = 0; 
-		cout << "please enter number between " << from << " and " << to << " : ";
+		cout << message;
 		cin >> number;
 
 		while (number < from || number > to)
 		{
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			cout << message << endl;
+			cout << "Number out of range try again!! " << endl;
 			cin >> number; 
 		}
 		return number; 
@@ -111,6 +137,14 @@ public :
 			num = read_double_number_input("wrong data type try again");
 		}
 		return num; 
+	}
+
+	static string  read_string(string msg)
+	{
+		string s = ""; 
+		cout << msg << endl; 
+		getline(cin >> ws, s);
+		return s; 
 	}
 };
 
